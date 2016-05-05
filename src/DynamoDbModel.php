@@ -69,11 +69,13 @@ abstract class DynamoDbModel extends Model
      */
     protected static $instance;
 
-    public function __construct(array $attributes = [], DynamoDbClientService $dynamoDb = null)
+    public function __construct(array $attributes = [], DynamoDbClientService $dynamoDb = null, $exists = false)
     {
         $this->bootIfNotBooted();
 
         $this->syncOriginal();
+
+        $this->exists = $exists;
 
         $this->fill($attributes);
 
@@ -183,6 +185,8 @@ abstract class DynamoDbModel extends Model
         if (empty($item)) {
             return;
         }
+
+        $model->exists = true;
 
         $item = $model->unmarshalItem($item);
 
@@ -315,7 +319,7 @@ abstract class DynamoDbModel extends Model
         $results = [];
         foreach ($iterator as $item) {
             $item = $this->unmarshalItem($item);
-            $model = new static($item, static::$dynamoDb);
+            $model = new static($item, static::$dynamoDb, true);
             $model->setUnfillableAttributes($item);
             $results[] = $model;
         }

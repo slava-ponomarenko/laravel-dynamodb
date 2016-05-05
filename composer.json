@@ -1,5 +1,5 @@
 {
-    "name": "baopham/dynamodb",
+    "name": "slava-ponomarenko/dynamodb",
     "description": "DynamoDb wrapper for your Laravel model and helpers",
     "keywords": ["laravel", "dynamodb", "aws"],
     "require": {
